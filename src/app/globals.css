@@ -25,3 +25,11 @@ body {
     text-wrap: balance;
   }
 }
+
+
+@layer utilities {
+  .backdrop-filter {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}
