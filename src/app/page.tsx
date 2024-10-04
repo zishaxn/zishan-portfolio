@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import {
   motion,
   AnimatePresence,
@@ -11,7 +12,6 @@ import {
   Github,
   Linkedin,
   Twitter,
-  Code,
   Server,
   Database,
   Cpu,
@@ -228,7 +228,7 @@ export default function Portfolio() {
               transition={{ duration: 0.5 }}
               className="w-48 h-48 mx-auto mb-8 relative"
             >
-              <img
+              <Image
                 src="/assets/zishan_profile.jpg"
                 alt="Zishan Chaudhary"
                 className="w-full h-full rounded-full object-cover border-4 border-white shadow-lg"
@@ -290,12 +290,12 @@ export default function Portfolio() {
           </h2>
           <div className="max-w-3xl mx-auto bg-white bg-opacity-80 backdrop-filter backdrop-blur-lg p-6 md:p-8 rounded-lg shadow-lg">
             <p className="mb-4 text-gray-700 leading-relaxed">
-              👋 I'm a confident IT professional with infectious enthusiasm for
-              technology. I am proficient in backend development with extensive
-              knowledge of AWS cloud services. I specialize in selecting the
-              best technologies tailored to your budget and requirements,
-              providing end-to-end solutions that ensure your backend is
-              efficiently designed, developed, and tested.
+              👋 I&apos;m a confident IT professional with infectious enthusiasm
+              for technology. I am proficient in backend development with
+              extensive knowledge of AWS cloud services. I specialize in
+              selecting the best technologies tailored to your budget and
+              requirements, providing end-to-end solutions that ensure your
+              backend is efficiently designed, developed, and tested.
             </p>
             <p className="mb-4 text-gray-700 leading-relaxed">
               I have a solid grasp of object-oriented programming (OOP) and
@@ -303,9 +303,11 @@ export default function Portfolio() {
               implement robust and scalable systems.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Let's connect and chat about Backend development,microservice
-              architecture,serverless and the latest tech trends, or exchange
-              some great book recommendations! 🚀
+              <p className="text-gray-700 leading-relaxed">
+                Let&apos;s connect and chat about Backend development,
+                microservice architecture, serverless and the latest tech
+                trends, or exchange some great book recommendations! 🚀
+              </p>
             </p>
             <div className="mt-6 flex justify-center">
               <a
@@ -467,7 +469,7 @@ export default function Portfolio() {
                 whileHover={{ y: -5 }}
               >
                 <div className="relative overflow-hidden">
-                  <img
+                  <Image
                     src={project.image}
                     alt={project.title}
                     className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
