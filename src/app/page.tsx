@@ -387,10 +387,10 @@ export default function Portfolio() {
             </div>
             <div className="space-y-4">
               {[
-                { label: "Backend Experience", value: "1+ Year" },
+                { label: "Backend Experience", value: "~ 2 Year" },
                 { label: "AWS & Serverless", value: "Lambda · API Gateway" },
-                { label: "Production Operations", value: "Deployments · Debugging" },
-                { label: "APIs & Infrastructure", value: "Node.js · TypeScript" },
+                { label: "Production Operations", value: "Deployments · Debugging · Infra Maintenance & Upgarde" },
+                { label: "APIs & Infrastructure", value: "Node.js · TypeScript · REST APIs" },
               ].map((stat) => (
                 <div
                   key={stat.label}
