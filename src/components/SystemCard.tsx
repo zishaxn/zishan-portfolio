@@ -5,10 +5,8 @@ interface SystemCardProps {
   status: string;
   statusColor?: "blue" | "yellow" | "green" | "purple";
   overview: string;
-  architecture?: string[];
   responsibilities: string[];
   tech: string[];
-  challenges: string;
   github?: string;
   demo?: string;
 }
@@ -27,7 +25,6 @@ export default function SystemCard({
   overview,
   responsibilities,
   tech,
-  challenges,
   github,
   demo,
 }: SystemCardProps) {

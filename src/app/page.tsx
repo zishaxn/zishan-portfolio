@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Github, Linkedin, Mail, Download, Menu, X, ExternalLink } from "lucide-react";
+import { Github, Linkedin, Mail, Download, Menu, X } from "lucide-react";
 import Image from "next/image";
 import SystemCard from "@/components/SystemCard";
 import ExperienceCard from "@/components/ExperienceCard";
@@ -15,10 +15,8 @@ const systems = [
     status: "ACTIVE DEVELOPMENT",
     statusColor: "blue" as const,
     overview: "A productivity-focused backend platform designed around structured task workflows, scalable APIs, and AI-assisted interactions. Built with a strong emphasis on backend architecture and long-term scalability.",
-    architecture: ["Client", "↓", "Express API Layer", "↓", "Service Layer", "↓", "PostgreSQL", "↓", "AWS Services"],
     responsibilities: ["Backend API architecture", "Authentication and session handling", "Database schema design", "AI workflow integrations", "Backend validation pipelines", "Infrastructure structuring"],
     tech: ["Node.js", "TypeScript", "Express", "PostgreSQL", "AWS"],
-    challenges: "Designing scalable backend workflows while maintaining clean service boundaries and extensible data structures for future AI integrations.",
   },
   {
     title: "API Management & Testing Platform",
@@ -27,7 +25,6 @@ const systems = [
     overview: "An internal backend-focused platform designed to simplify API management, request testing, environment handling, and operational workflows for development teams.",
     responsibilities: ["Request lifecycle handling", "Environment management", "Authentication workflows", "API request validation", "Logging architecture", "Backend service organization"],
     tech: ["Node.js", "TypeScript", "Express", "REST", "Swagger"],
-    challenges: "Structuring reusable backend services while maintaining clean request flows and scalable environment configurations.",
   },
   {
     title: "Workflow-Oriented CRM Platform",
@@ -36,7 +33,6 @@ const systems = [
     overview: "A backend-heavy CRM platform focused on structured workflows, role-based access, operational management, and scalable business process handling.",
     responsibilities: ["Role-based access control", "Workflow management", "Notification handling", "Entity relationships", "API architecture"],
     tech: ["Node.js", "TypeScript", "PostgreSQL", "Express", "AWS"],
-    challenges: "Designing a flexible workflow engine that accommodates diverse business process configurations without coupling core models to specific use cases.",
   },
   {
     title: "Browser Automation & Testing Control System",
@@ -45,7 +41,6 @@ const systems = [
     overview: "A lightweight automation system created to support testing workflows when required dependency tooling was unavailable during development.",
     responsibilities: ["Automation script architecture", "Browser state management", "Test scenario orchestration", "Result collection and reporting", "Error recovery handling"],
     tech: ["Python", "Automation", "Scripting", "CLI"],
-    challenges: "Building reliable automation without standard tooling — designing around environmental constraints to deliver consistent, repeatable test execution.",
   },
 ];
 
@@ -233,7 +228,7 @@ export default function Portfolio() {
         <section className="min-h-screen flex items-center py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
             <div>
-              <p className="text-[#9ca3af] mb-4">Hi, I'm Zishan.</p>
+              <p className="text-[#9ca3af] mb-4">Hi, I&apos;m Zishan.</p>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-6">
                 Backend engineer focused on building reliable APIs and scalable backend systems.
               </h1>
