@@ -7,8 +7,15 @@ interface SystemCardProps {
   overview: string;
   responsibilities: string[];
   tech: string[];
-  github?: string;
-  demo?: string;
+  images?: string[];
+  videos?: string[];
+  diagrams?: string[];
+  github?: {
+    enabled: boolean;
+    private: boolean;
+    url: string;
+  };
+  liveUrl?: string;
 }
 
 const statusColors: Record<string, string> = {
@@ -26,10 +33,10 @@ export default function SystemCard({
   responsibilities,
   tech,
   github,
-  demo,
+  liveUrl,
 }: SystemCardProps) {
   return (
-    <div className="bg-[#1a1f29] border border-[rgba(255,255,255,0.08)] rounded-xl p-6 hover:border-[rgba(91,140,255,0.3)] transition-all duration-300 flex flex-col gap-5">
+    <div className="flex flex-col gap-4">
       <div className="flex items-start justify-between gap-4">
         <h3 className="text-lg font-semibold text-[#f3f4f6] leading-snug">{title}</h3>
         <span
@@ -42,13 +49,11 @@ export default function SystemCard({
       <p className="text-sm text-[#9ca3af] leading-relaxed">{overview}</p>
 
       <div>
-        <p className="text-xs text-[#6b7280] mb-2">
-          Key Responsibilities
-        </p>
+        <p className="text-xs text-[#6b7280] mb-2">Key Responsibilities</p>
         <ul className="space-y-1.5">
-          {responsibilities.map((r) => (
+          {responsibilities.slice(0, 4).map((r) => (
             <li key={r} className="text-sm text-[#9ca3af] flex items-start gap-2">
-              <span className="text-[#5b8cff] mt-1 shrink-0">›</span>
+              <span className="text-[#4f7cff] mt-1 shrink-0">›</span>
               {r}
             </li>
           ))}
@@ -66,26 +71,34 @@ export default function SystemCard({
         ))}
       </div>
 
-      {(github || demo) && (
+      {(github?.enabled || liveUrl) && (
         <div className="flex gap-4 pt-2 border-t border-[rgba(255,255,255,0.08)]">
-          {github && (
-            <a
-              href={github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-[#9ca3af] hover:text-[#f3f4f6] transition-colors duration-200"
-            >
-              <Github size={13} /> GitHub
-            </a>
+          {github?.enabled && (
+            <>
+              {github.private ? (
+                <span className="flex items-center gap-1.5 text-xs text-[#6b7280]">
+                  <Github size={13} /> Private Repository
+                </span>
+              ) : (
+                <a
+                  href={github.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-xs text-[#9ca3af] hover:text-[#f3f4f6] transition-colors duration-200"
+                >
+                  <Github size={13} /> GitHub
+                </a>
+              )}
+            </>
           )}
-          {demo && (
+          {liveUrl && (
             <a
-              href={demo}
+              href={liveUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-xs text-[#9ca3af] hover:text-[#f3f4f6] transition-colors duration-200"
             >
-              <ExternalLink size={13} /> Live
+              <ExternalLink size={13} /> Live Demo
             </a>
           )}
         </div>

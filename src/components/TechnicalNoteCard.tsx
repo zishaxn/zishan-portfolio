@@ -24,17 +24,17 @@ export default function TechnicalNoteCard({
     <>
       <button
         onClick={() => setOpen(true)}
-        className="text-left w-full border border-[rgba(255,255,255,0.08)] rounded-xl bg-[#1a1f29] p-6 hover:border-[rgba(91,140,255,0.3)] transition-all duration-300"
+        className="text-left w-full border border-[rgba(255,255,255,0.08)] rounded-xl bg-[#1a1f29] p-6 hover:border-[rgba(79,124,255,0.3)] transition-all duration-300"
       >
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-[10px] font-mono text-[#5b8cff] border border-[#5b8cff]/20 bg-[#5b8cff]/10 px-2 py-1 rounded-full">
+          <span className="text-[10px] font-mono text-[#4f7cff] border border-[#4f7cff]/20 bg-[#4f7cff]/10 px-2 py-1 rounded-full">
             {tag}
           </span>
           <span className="text-[10px] text-[#6b7280]">{readTime}</span>
         </div>
         <h3 className="text-base font-semibold text-[#f3f4f6] leading-snug mb-2">{title}</h3>
         <p className="text-sm text-[#9ca3af] leading-relaxed line-clamp-3">{excerpt}</p>
-        <p className="mt-4 text-sm text-[#5b8cff]">Read note →</p>
+        <p className="mt-4 text-sm text-[#4f7cff]">Read note →</p>
       </button>
 
       {open && (
@@ -51,7 +51,7 @@ export default function TechnicalNoteCard({
               <X size={20} />
             </button>
             <div className="flex items-center gap-2 mb-6">
-              <span className="text-xs font-mono text-[#5b8cff] border border-[#5b8cff]/20 bg-[#5b8cff]/10 px-3 py-1 rounded-full">
+              <span className="text-xs font-mono text-[#4f7cff] border border-[#4f7cff]/20 bg-[#4f7cff]/10 px-3 py-1 rounded-full">
                 {tag}
               </span>
               <span className="text-xs text-[#6b7280]">{readTime}</span>

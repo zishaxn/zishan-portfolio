@@ -1,65 +1,124 @@
 "use client";
 
 import { useState } from "react";
-import { Github, Linkedin, Mail, Download, Menu, X } from "lucide-react";
+import { Github, Linkedin, Mail, Download, Menu, X, Server, Database } from "lucide-react";
 import Image from "next/image";
 import SystemCard from "@/components/SystemCard";
 import ExperienceCard from "@/components/ExperienceCard";
 import TechnicalNoteCard from "@/components/TechnicalNoteCard";
 
-const navItems = ["About", "Work", "Experience", "Notes"];
+const navItems = [
+  { label: "About", id: "about" },
+  { label: "Work", id: "work" },
+  { label: "Experience", id: "experience" },
+  { label: "Notes", id: "notes" },
+  { label: "Contact", id: "contact" },
+];
+
 
 const systems = [
   {
     title: "AI-Assisted Productivity Platform",
     status: "ACTIVE DEVELOPMENT",
     statusColor: "blue" as const,
-    overview: "A productivity-focused backend platform designed around structured task workflows, scalable APIs, and AI-assisted interactions. Built with a strong emphasis on backend architecture and long-term scalability.",
-    responsibilities: ["Backend API architecture", "Authentication and session handling", "Database schema design", "AI workflow integrations", "Backend validation pipelines", "Infrastructure structuring"],
+    overview:
+      "A productivity-focused backend platform designed around structured task workflows, scalable APIs, and AI-assisted interactions. Built with a strong emphasis on backend architecture and long-term scalability.",
+    responsibilities: [
+      "Backend API architecture",
+      "Authentication and session handling",
+      "Database schema design",
+      "AI workflow integrations",
+      "Backend validation pipelines",
+      "Infrastructure structuring",
+    ],
     tech: ["Node.js", "TypeScript", "Express", "PostgreSQL", "AWS"],
+    featured: true,
+    images: [],
+    videos: [],
+    diagrams: [],
+    github: {
+      enabled: true,
+      private: true,
+      url: "",
+    },
+    liveUrl: "",
   },
   {
     title: "API Management & Testing Platform",
     status: "INTERNAL TOOLING",
     statusColor: "yellow" as const,
-    overview: "An internal backend-focused platform designed to simplify API management, request testing, environment handling, and operational workflows for development teams.",
-    responsibilities: ["Request lifecycle handling", "Environment management", "Authentication workflows", "API request validation", "Logging architecture", "Backend service organization"],
+    overview:
+      "An internal backend-focused platform designed to simplify API management, request testing, environment handling, and operational workflows for development teams.",
+    responsibilities: [
+      "Request lifecycle handling",
+      "Environment management",
+      "Authentication workflows",
+      "API request validation",
+      "Logging architecture",
+    ],
     tech: ["Node.js", "TypeScript", "Express", "REST", "Swagger"],
   },
   {
     title: "Workflow-Oriented CRM Platform",
     status: "MVP",
     statusColor: "green" as const,
-    overview: "A backend-heavy CRM platform focused on structured workflows, role-based access, operational management, and scalable business process handling.",
-    responsibilities: ["Role-based access control", "Workflow management", "Notification handling", "Entity relationships", "API architecture"],
+    overview:
+      "A backend-heavy CRM platform focused on structured workflows, role-based access, operational management, and scalable business process handling.",
+    responsibilities: [
+      "Role-based access control",
+      "Workflow management",
+      "Notification handling",
+      "Entity relationships",
+      "API architecture",
+    ],
     tech: ["Node.js", "TypeScript", "PostgreSQL", "Express", "AWS"],
   },
   {
     title: "Browser Automation & Testing Control System",
     status: "EXPERIMENTAL",
     statusColor: "purple" as const,
-    overview: "A lightweight automation system created to support testing workflows when required dependency tooling was unavailable during development.",
-    responsibilities: ["Automation script architecture", "Browser state management", "Test scenario orchestration", "Result collection and reporting", "Error recovery handling"],
+    overview:
+      "A lightweight automation system created to support testing workflows when required dependency tooling was unavailable during development.",
+    responsibilities: [
+      "Automation script architecture",
+      "Browser state management",
+      "Test scenario orchestration",
+      "Result collection and reporting",
+    ],
     tech: ["Python", "Automation", "Scripting", "CLI"],
   },
 ];
 
 const experiences = [
   {
-    title: "Application Support & Backend Operations Engineer",
-    company: "Enterprise Wealth Management",
+    title: "Software Engineer",
+    company: "Clover Infotech (Client: HDFC Bank)",
     period: "2025 – Present",
-    overview: "Working in enterprise production-support environments involving deployments, API troubleshooting, operational debugging, incident resolution, and infrastructure coordination for wealth management systems.",
-    highlights: ["UAT and production deployments", "API issue investigation and resolution", "Monitoring and debugging production incidents", "Infrastructure coordination with engineering teams"],
-    tags: ["Production Support", "Deployments", "API Debugging", "Monitoring"],
+    overview:
+      "Supporting enterprise wealth management applications across incident management, deployment activities, API troubleshooting, and production/UAT operations.",
+    highlights: [
+      "Incident management and deployment activities for enterprise wealth management applications",
+      "Coordinated infrastructure component upgrades and maintenance",
+      "VAPT & Baselining coordination with infrastructure and security teams",
+      "Deployment validation, issue analysis, and log investigation",
+      "Environment stability and release management support",
+    ],
+    tags: ["Production Support", "Deployments", "API Troubleshooting", "VAPT", "Release Management"],
   },
   {
     title: "Backend Engineer",
     company: "CloudBerry Solutions (Startup)",
     period: "May 2024 – 2025",
-    overview: "Worked as a core backend engineer in a small startup environment, building serverless systems and backend workflows using AWS infrastructure and Python-based services.",
-    highlights: ["AWS Lambda-based microservice development", "API Gateway integrations and endpoint design", "DynamoDB and PostgreSQL schema design", "CloudFormation templates for infrastructure", "CloudWatch monitoring and alerting setup"],
-    tags: ["AWS Lambda", "API Gateway", "DynamoDB", "PostgreSQL", "CloudFormation"],
+    overview:
+      "Worked as a core backend engineer in a small startup environment, building serverless systems and backend workflows using AWS infrastructure and Python-based services.",
+    highlights: [
+      "Developed REST APIs for loyalty systems and customer feedback workflows for Restuarant & Cafe Owners",
+      "Implemented QR-based review flows and business operations platforms",
+      "Built separate authentication systems for customers and business owners",
+      "Designed PostgreSQL schemas and database architecture",
+      "Deployed serverless infrastructure using CloudFormation",
+    ],
+    tags: ["AWS Lambda", "API Gateway", "DynamoDB", "PostgreSQL", "Cognito", "CloudFormation"],
   },
 ];
 
@@ -68,7 +127,8 @@ const notes = [
     title: "Handling Async Workflows in Serverless Systems",
     tag: "Serverless",
     readTime: "5 min read",
-    excerpt: "Lambda functions are ephemeral. Any work that needs to outlast a single invocation must be handled externally. Practical patterns for SQS offloading, Step Functions, and retry design.",
+    excerpt:
+      "Lambda functions are ephemeral. Any work that needs to outlast a single invocation must be handled externally. Practical patterns for SQS offloading, Step Functions, and retry design.",
     body: `Serverless functions like AWS Lambda introduce a different mental model for async processing. Unlike a long-running server process that can hold state and manage background jobs, Lambda functions are ephemeral — they start, execute, and terminate. Any work that needs to outlast a single invocation must be handled externally.
 
 Lambda has a hard execution limit (15 minutes). For workloads that might approach this limit — large file processing, complex transformations, multi-step workflows — you need an explicit strategy.
@@ -93,7 +153,8 @@ Async serverless architecture trades operational simplicity for scalability. The
     title: "Debugging API Failures During Deployments",
     tag: "Operations",
     readTime: "4 min read",
-    excerpt: "Production deployments expose edge cases that never appear in staging. Practical debugging patterns from real production support incidents involving API failures, timeouts, and silent errors.",
+    excerpt:
+      "Production deployments expose edge cases that never appear in staging. Practical debugging patterns from real production support incidents involving API failures, timeouts, and silent errors.",
     body: `Production deployments expose edge cases that never appear in staging. The most frustrating incidents are the ones where everything looks fine — green health checks, no error logs, successful deployment — but users report failures.
 
 The first instinct is to roll back. Sometimes that's correct. But rolling back without understanding the root cause means the same issue will reappear on the next deployment.
@@ -114,7 +175,8 @@ The goal isn't just to fix the immediate issue — it's to add observability so 
     title: "Structuring Express Services for Maintainability",
     tag: "API Design",
     readTime: "4 min read",
-    excerpt: "Express gives you flexibility — which means it's easy to build unmaintainable codebases. Practical patterns for layering routes, controllers, services, and models in a way that scales with team size.",
+    excerpt:
+      "Express gives you flexibility — which means it's easy to build unmaintainable codebases. Practical patterns for layering routes, controllers, services, and models in a way that scales with team size.",
     body: `Express gives you flexibility — which means it's easy to build unmaintainable codebases. Without structure, every developer implements their own patterns, and the codebase becomes inconsistent.
 
 The goal is to establish conventions that make the codebase predictable. New engineers should be able to find where business logic lives, where database queries happen, and where validation occurs — without asking.
@@ -139,7 +201,8 @@ The result is a codebase where every file has a clear purpose, and every layer h
     title: "Event-Driven Architecture in Practice",
     tag: "Architecture",
     readTime: "5 min read",
-    excerpt: "Event-driven systems decouple services through asynchronous message flows. Practical lessons from implementing SNS/SQS patterns, handling idempotency, and designing for failure in production.",
+    excerpt:
+      "Event-driven systems decouple services through asynchronous message flows. Practical lessons from implementing SNS/SQS patterns, handling idempotency, and designing for failure in production.",
     body: `Event-driven architecture is a design paradigm where components communicate through events — discrete signals that something has happened — rather than direct function calls. In backend systems, this means replacing synchronous dependencies with asynchronous message flows.
 
 In practice, this looks like: a user submits a form → an event is published to an SNS topic → multiple Lambda functions subscribe and react independently. Order confirmation emails, inventory updates, and audit logging all happen without blocking each other.
@@ -170,21 +233,23 @@ export default function Portfolio() {
     setMobileMenuOpen(false);
   };
 
+  const featuredProject = systems.find((s) => s.featured);
+  const otherProjects = systems.filter((s) => !s.featured);
+
   return (
     <div className="min-h-screen bg-[#0f1115] text-[#f3f4f6]">
-
       {/* Navbar */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0f1115]/80 backdrop-blur-xl border-b border-[rgba(255,255,255,0.08)]">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <header className="fixed top-4 left-0 right-0 z-50 px-6">
+        <div className="max-w-6xl mx-auto bg-[#1a1f29]/80 backdrop-blur-xl border border-[rgba(255,255,255,0.08)] rounded-2xl px-6 h-14 flex items-center justify-between">
           <span className="text-lg font-medium">Zishan.</span>
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <button
-                key={item}
-                onClick={() => scrollTo(item.toLowerCase())}
+                key={item.id}
+                onClick={() => scrollTo(item.id)}
                 className="text-sm text-[#9ca3af] hover:text-[#f3f4f6] transition-colors duration-200"
               >
-                {item}
+                {item.label}
               </button>
             ))}
           </nav>
@@ -192,7 +257,7 @@ export default function Portfolio() {
             <a
               href="/assets/Zishan_Resume.pdf"
               download
-              className="flex items-center gap-2 text-sm border border-[rgba(255,255,255,0.08)] px-4 py-2 rounded-lg hover:border-[#5b8cff] hover:text-[#5b8cff] transition-all duration-200"
+              className="flex items-center gap-2 text-sm border border-[rgba(255,255,255,0.08)] px-4 py-2 rounded-lg hover:border-[#4f7cff] hover:text-[#4f7cff] transition-all duration-200"
             >
               <Download size={14} /> Resume
             </a>
@@ -207,25 +272,24 @@ export default function Portfolio() {
       </header>
 
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#0f1115] pt-16 px-6">
+        <div className="fixed inset-0 z-40 bg-[#0f1115] pt-24 px-6">
           <div className="py-8 flex flex-col gap-6">
             {navItems.map((item) => (
               <button
-                key={item}
-                onClick={() => scrollTo(item.toLowerCase())}
+                key={item.id}
+                onClick={() => scrollTo(item.id)}
                 className="text-left text-lg text-[#9ca3af] hover:text-[#f3f4f6]"
               >
-                {item}
+                {item.label}
               </button>
             ))}
           </div>
         </div>
       )}
 
-      <main className="max-w-6xl mx-auto px-6 pt-16">
-
+      <main className="max-w-6xl mx-auto px-6">
         {/* Hero */}
-        <section className="min-h-screen flex items-center py-20">
+        <section className="min-h-screen flex items-center py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
             <div>
               <p className="text-[#9ca3af] mb-4">Hi, I&apos;m Zishan.</p>
@@ -238,14 +302,14 @@ export default function Portfolio() {
               <div className="flex flex-wrap items-center gap-4">
                 <button
                   onClick={() => scrollTo("work")}
-                  className="bg-[#5b8cff] text-white px-6 py-3 rounded-lg hover:bg-[#4f7cff] transition-colors duration-200"
+                  className="bg-[#4f7cff] text-white px-6 py-3 rounded-lg hover:bg-[#3b6ee8] transition-colors duration-200"
                 >
                   View Work
                 </button>
                 <a
                   href="/assets/Zishan_Resume.pdf"
                   download
-                  className="flex items-center gap-2 border border-[rgba(255,255,255,0.08)] px-6 py-3 rounded-lg hover:border-[#5b8cff] hover:text-[#5b8cff] transition-all duration-200"
+                  className="flex items-center gap-2 border border-[rgba(255,255,255,0.08)] px-6 py-3 rounded-lg hover:border-[#4f7cff] hover:text-[#4f7cff] transition-all duration-200"
                 >
                   <Download size={16} /> Resume
                 </a>
@@ -261,10 +325,10 @@ export default function Portfolio() {
             </div>
             <div className="flex justify-center lg:justify-end">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#5b8cff]/20 to-[#a855f7]/20 rounded-2xl blur-3xl" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#4f7cff]/20 to-[#a855f7]/20 rounded-2xl blur-3xl" />
                 <div className="relative w-80 h-80 rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.08)] bg-[#1a1f29]">
                   <Image
-                    src="/assets/zishan_profile.jpg"
+                    src="/assets/zishan_profile.png"
                     alt="Zishan Chaudhary"
                     fill
                     className="object-cover"
@@ -276,21 +340,49 @@ export default function Portfolio() {
           </div>
         </section>
 
+
         {/* About */}
-        <section id="about" className="py-24 border-t border-[rgba(255,255,255,0.08)]">
+        <section id="about" className="py-20 border-t border-[rgba(255,255,255,0.08)]">
           <h2 className="text-3xl font-semibold mb-16">About</h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-2 space-y-6 text-[#9ca3af] leading-relaxed">
+            <div className="lg:col-span-2 space-y-6 text-[#9ca3af] leading-relaxed text-lg">
               <p>
-                I work across backend development and production support environments, focusing on APIs, deployments, cloud infrastructure, debugging, and operational workflows. My experience spans both startup engineering and enterprise support environments.
+                I work across backend development and production support environments, focusing on
+                APIs, deployments, cloud infrastructure, debugging, and operational workflows. My
+                experience spans both startup engineering and enterprise support environments.
               </p>
               <p>
-                Primary focus areas include serverless backend systems, Infrastructure-as-Code, API integrations, database design, event-driven workflows, monitoring, and backend reliability. Currently building backend-heavy systems using Node.js, TypeScript, and AWS.
+                Primary focus areas include serverless backend systems, Infrastructure-as-Code, API
+                integrations, database design, event-driven workflows, monitoring, and backend
+                reliability. Currently building backend-heavy systems using Node.js, TypeScript, and
+                AWS.
+              </p>
+              <p>
+                Outside Coding, I spend a good time reading fiction, maintaining diary, and occasionally solve Rubik&apos;s in less than 90 seconds 😃.
               </p>
               <div className="flex gap-4 pt-4">
-                <a href="https://www.linkedin.com/in/zishaxnn" target="_blank" rel="noopener noreferrer" className="text-[#9ca3af] hover:text-[#5b8cff] transition-colors"><Linkedin size={20} /></a>
-                <a href="https://github.com/zishaxn" target="_blank" rel="noopener noreferrer" className="text-[#9ca3af] hover:text-[#f3f4f6] transition-colors"><Github size={20} /></a>
-                <a href="mailto:zishaxn@gmail.com" className="text-[#9ca3af] hover:text-[#f3f4f6] transition-colors"><Mail size={20} /></a>
+                <a
+                  href="https://www.linkedin.com/in/zishaxnn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#9ca3af] hover:text-[#4f7cff] transition-colors"
+                >
+                  <Linkedin size={20} />
+                </a>
+                <a
+                  href="https://github.com/zishaxn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#9ca3af] hover:text-[#f3f4f6] transition-colors"
+                >
+                  <Github size={20} />
+                </a>
+                <a
+                  href="mailto:zishaxn@gmail.com"
+                  className="text-[#9ca3af] hover:text-[#f3f4f6] transition-colors"
+                >
+                  <Mail size={20} />
+                </a>
               </div>
             </div>
             <div className="space-y-4">
@@ -300,7 +392,10 @@ export default function Portfolio() {
                 { label: "Production Operations", value: "Deployments · Debugging" },
                 { label: "APIs & Infrastructure", value: "Node.js · TypeScript" },
               ].map((stat) => (
-                <div key={stat.label} className="bg-[#1a1f29] border border-[rgba(255,255,255,0.08)] rounded-xl p-5">
+                <div
+                  key={stat.label}
+                  className="bg-[#1a1f29] border border-[rgba(255,255,255,0.08)] rounded-xl p-5"
+                >
                   <p className="text-sm text-[#9ca3af] mb-1">{stat.label}</p>
                   <p className="text-[#f3f4f6] font-medium">{stat.value}</p>
                 </div>
@@ -310,74 +405,109 @@ export default function Portfolio() {
         </section>
 
         {/* Selected Work */}
-        <section id="work" className="py-24 border-t border-[rgba(255,255,255,0.08)]">
-          <h2 className="text-3xl font-semibold mb-4">Selected Work</h2>
-          <p className="text-[#9ca3af] mb-16 max-w-2xl">
-            A collection of backend systems, infrastructure-focused products, and operational tooling.
-          </p>
-          
-          {/* Featured Project */}
-          <div className="mb-12 bg-[#1a1f29] border border-[rgba(255,255,255,0.08)] rounded-2xl p-8 hover:border-[rgba(91,140,255,0.3)] transition-all duration-300">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <span className="inline-block text-xs font-mono text-[#5b8cff] bg-[#5b8cff]/10 border border-[#5b8cff]/20 px-3 py-1 rounded-full mb-3">
-                  FEATURED
-                </span>
-                <h3 className="text-2xl font-semibold mb-3">{systems[0].title}</h3>
-              </div>
-              <span className="text-xs font-mono text-[#5b8cff] bg-[#5b8cff]/10 border border-[#5b8cff]/20 px-3 py-1 rounded-full">
-                {systems[0].status}
-              </span>
-            </div>
-            <p className="text-[#9ca3af] leading-relaxed mb-6">{systems[0].overview}</p>
-            <div className="mb-6">
-              <p className="text-sm text-[#6b7280] mb-3">Key Responsibilities</p>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {systems[0].responsibilities.map((r) => (
-                  <li key={r} className="text-sm text-[#9ca3af] flex items-start gap-2">
-                    <span className="text-[#5b8cff] mt-1">›</span>
-                    {r}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {systems[0].tech.map((t) => (
-                <span key={t} className="text-xs text-[#9ca3af] border border-[rgba(255,255,255,0.08)] px-3 py-1 rounded-full">
-                  {t}
-                </span>
-              ))}
-            </div>
+        <section id="work" className="py-20 border-t border-[rgba(255,255,255,0.08)]">
+          <div className="mb-16">
+            <h2 className="text-3xl font-semibold mb-3">Selected Work</h2>
+            <p className="text-[#9ca3af] max-w-2xl">
+              A collection of backend systems, infrastructure-focused products, and operational
+              tooling.
+            </p>
           </div>
+
+          {/* Featured Project */}
+          {featuredProject && (
+            <div className="mb-16 bg-[#1a1f29] border border-[rgba(255,255,255,0.08)] rounded-3xl overflow-hidden hover:border-[rgba(79,124,255,0.3)] transition-all duration-300">
+              <div className="aspect-video bg-gradient-to-br from-[#1a1f29] to-[#12151b] relative overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center space-y-4 p-8">
+                    <Server className="mx-auto text-[#4f7cff]" size={48} />
+                    <p className="text-[#6b7280] text-sm font-mono">
+                      [Dashboard Preview Placeholder]
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8 md:p-10">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <span className="inline-block text-xs font-mono text-[#4f7cff] bg-[#4f7cff]/10 border border-[#4f7cff]/20 px-3 py-1 rounded-full mb-3">
+                      FEATURED
+                    </span>
+                    <h3 className="text-2xl md:text-3xl font-semibold mb-3">
+                      {featuredProject.title}
+                    </h3>
+                  </div>
+                  <span className="text-xs font-mono text-[#4f7cff] bg-[#4f7cff]/10 border border-[#4f7cff]/20 px-3 py-1 rounded-full">
+                    {featuredProject.status}
+                  </span>
+                </div>
+                <p className="text-[#9ca3af] leading-relaxed mb-8 text-lg">
+                  {featuredProject.overview}
+                </p>
+                <div className="mb-8">
+                  <p className="text-sm text-[#6b7280] mb-4">Key Responsibilities</p>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {featuredProject.responsibilities.map((r) => (
+                      <li key={r} className="text-sm text-[#9ca3af] flex items-start gap-2">
+                        <span className="text-[#4f7cff] mt-1">›</span>
+                        {r}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {featuredProject.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="text-xs text-[#9ca3af] border border-[rgba(255,255,255,0.08)] px-3 py-1 rounded-full"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Other Projects */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {systems.slice(1).map((sys) => (
-              <SystemCard key={sys.title} {...sys} />
+            {otherProjects.map((sys) => (
+              <div
+                key={sys.title}
+                className="bg-[#1a1f29] border border-[rgba(255,255,255,0.08)] rounded-2xl overflow-hidden hover:border-[rgba(79,124,255,0.3)] transition-all duration-300"
+              >
+                <div className="aspect-video bg-gradient-to-br from-[#1a1f29] to-[#12151b] relative">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Database className="text-[#4f7cff]" size={32} />
+                  </div>
+                </div>
+                <div className="p-6">
+                  <SystemCard {...sys} />
+                </div>
+              </div>
             ))}
           </div>
         </section>
 
         {/* Experience */}
-        <section id="experience" className="py-24 border-t border-[rgba(255,255,255,0.08)]">
+        <section id="experience" className="py-20 border-t border-[rgba(255,255,255,0.08)]">
           <h2 className="text-3xl font-semibold mb-16">Experience</h2>
           <div className="max-w-3xl space-y-12">
             {experiences.map((exp, i) => (
-              <ExperienceCard
-                key={exp.title}
-                {...exp}
-                isLast={i === experiences.length - 1}
-              />
+              <ExperienceCard key={exp.title} {...exp} isLast={i === experiences.length - 1} />
             ))}
           </div>
         </section>
 
-        {/* Technical Notes */}
-        <section id="notes" className="py-24 border-t border-[rgba(255,255,255,0.08)]">
-          <h2 className="text-3xl font-semibold mb-4">Technical Notes</h2>
-          <p className="text-[#9ca3af] mb-16 max-w-2xl">
-            Notes on backend engineering patterns, operational practices, and system design thinking.
-          </p>
+        {/* Engineering Notes */}
+        <section id="notes" className="py-20 border-t border-[rgba(255,255,255,0.08)]">
+          <div className="mb-16">
+            <h2 className="text-3xl font-semibold mb-3">Engineering Notes</h2>
+            <p className="text-[#9ca3af] max-w-2xl">
+              Notes on backend engineering patterns, operational practices, and system design
+              thinking.
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {notes.map((note) => (
               <TechnicalNoteCard key={note.title} {...note} />
@@ -385,28 +515,56 @@ export default function Portfolio() {
           </div>
         </section>
 
+        {/* Contact Section */}
+        <section id="contact" className="py-10 border-t border-[rgba(255,255,255,0.08)]">
+          <div className="max-w-2xl mx-auto text-center space-y-5">
+            <div className="space-y-4">
+              <h2 className="text-3xl font-semibold">Let&apos;s Connect</h2>
+              <p className="text-[#9ca3af] text-lg">
+                Open to backend and cloud engineering opportunities.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              <a
+                href="https://github.com/zishaxn"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-[#9ca3af] hover:text-[#f3f4f6] transition-colors bg-[#1a1f29] border border-[rgba(255,255,255,0.08)] px-6 py-3 rounded-lg hover:border-[#4f7cff]"
+              >
+                <Github size={18} /> GitHub
+              </a>
+              <a
+                href="https://www.linkedin.com/in/zishaxnn"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-[#9ca3af] hover:text-[#4f7cff] transition-colors bg-[#1a1f29] border border-[rgba(255,255,255,0.08)] px-6 py-3 rounded-lg hover:border-[#4f7cff]"
+              >
+                <Linkedin size={18} /> LinkedIn
+              </a>
+              <a
+                href="mailto:zishaxn@gmail.com"
+                className="flex items-center gap-2 text-[#9ca3af] hover:text-[#f3f4f6] transition-colors bg-[#1a1f29] border border-[rgba(255,255,255,0.08)] px-6 py-3 rounded-lg hover:border-[#4f7cff]"
+              >
+                <Mail size={18} /> Email
+              </a>
+              <a
+                href="/assets/Zishan_Resume.pdf"
+                download
+                className="flex items-center gap-2 text-white bg-[#4f7cff] px-6 py-3 rounded-lg hover:bg-[#3b6ee8] transition-colors"
+              >
+                <Download size={18} /> Resume
+              </a>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[rgba(255,255,255,0.08)] mt-24">
-        <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-sm text-[#6b7280]">
-            © {new Date().getFullYear()} Zishan Chaudhary
-          </p>
-          <div className="flex items-center gap-6">
-            <a href="https://github.com/zishaxn" target="_blank" rel="noopener noreferrer" className="text-sm text-[#9ca3af] hover:text-[#f3f4f6] transition-colors flex items-center gap-2">
-              <Github size={16} /> GitHub
-            </a>
-            <a href="https://www.linkedin.com/in/zishaxnn" target="_blank" rel="noopener noreferrer" className="text-sm text-[#9ca3af] hover:text-[#5b8cff] transition-colors flex items-center gap-2">
-              <Linkedin size={16} /> LinkedIn
-            </a>
-            <a href="mailto:zishaxn@gmail.com" className="text-sm text-[#9ca3af] hover:text-[#f3f4f6] transition-colors flex items-center gap-2">
-              <Mail size={16} /> Email
-            </a>
-          </div>
+      <footer className="border-t border-[rgba(255,255,255,0.08)] mt-12">
+        <div className="max-w-6xl mx-auto px-6 py-8 text-center">
+          <p className="text-sm text-[#6b7280]">© {new Date().getFullYear()} Zishan Chaudhary</p>
         </div>
       </footer>
-
     </div>
   );
 }

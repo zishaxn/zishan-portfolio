@@ -14,8 +14,8 @@ module.exports = {
         'text-primary': '#f3f4f6',
         'text-secondary': '#9ca3af',
         'text-muted': '#6b7280',
-        'accent': '#5b8cff',
-        'accent-hover': '#4f7cff',
+        'accent': '#4f7cff',
+        'accent-hover': '#3b6ee8',
         'border-color': 'rgba(255, 255, 255, 0.08)',
       },
       fontFamily: {
