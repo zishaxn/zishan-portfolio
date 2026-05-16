@@ -24,40 +24,40 @@ export default function TechnicalNoteCard({
     <>
       <button
         onClick={() => setOpen(true)}
-        className="text-left w-full border border-[#262626] rounded-lg bg-[#111111] p-5 hover:border-[#3b82f620] hover:bg-[#141414] transition-colors duration-200"
+        className="text-left w-full border border-[rgba(255,255,255,0.08)] rounded-xl bg-[#1a1f29] p-6 hover:border-[rgba(91,140,255,0.3)] transition-all duration-300"
       >
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-[10px] font-mono text-[#3b82f6] tracking-widest uppercase border border-[#3b82f620] bg-[#3b82f610] px-2 py-0.5 rounded">
+          <span className="text-[10px] font-mono text-[#5b8cff] border border-[#5b8cff]/20 bg-[#5b8cff]/10 px-2 py-1 rounded-full">
             {tag}
           </span>
-          <span className="text-[10px] font-mono text-[#525252]">{readTime}</span>
+          <span className="text-[10px] text-[#6b7280]">{readTime}</span>
         </div>
-        <h3 className="text-sm font-semibold text-[#e5e5e5] leading-snug mb-2">{title}</h3>
-        <p className="text-xs text-[#737373] leading-relaxed line-clamp-3">{excerpt}</p>
-        <p className="mt-3 text-xs text-[#3b82f6]">Read note →</p>
+        <h3 className="text-base font-semibold text-[#f3f4f6] leading-snug mb-2">{title}</h3>
+        <p className="text-sm text-[#9ca3af] leading-relaxed line-clamp-3">{excerpt}</p>
+        <p className="mt-4 text-sm text-[#5b8cff]">Read note →</p>
       </button>
 
       {open && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 flex items-start justify-center p-4 pt-16 overflow-y-auto"
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-start justify-center p-4 pt-16 overflow-y-auto"
           onClick={(e) => e.target === e.currentTarget && setOpen(false)}
         >
-          <div className="w-full max-w-2xl bg-[#111111] border border-[#262626] rounded-lg p-8 relative">
+          <div className="w-full max-w-3xl bg-[#1a1f29] border border-[rgba(255,255,255,0.08)] rounded-2xl p-8 md:p-12 relative">
             <button
               onClick={() => setOpen(false)}
-              className="absolute top-4 right-4 text-[#525252] hover:text-[#e5e5e5] transition-colors duration-200"
+              className="absolute top-6 right-6 text-[#6b7280] hover:text-[#f3f4f6] transition-colors duration-200"
               aria-label="Close"
             >
-              <X size={18} />
+              <X size={20} />
             </button>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-[10px] font-mono text-[#3b82f6] tracking-widest uppercase border border-[#3b82f620] bg-[#3b82f610] px-2 py-0.5 rounded">
+            <div className="flex items-center gap-2 mb-6">
+              <span className="text-xs font-mono text-[#5b8cff] border border-[#5b8cff]/20 bg-[#5b8cff]/10 px-3 py-1 rounded-full">
                 {tag}
               </span>
-              <span className="text-[10px] font-mono text-[#525252]">{readTime}</span>
+              <span className="text-xs text-[#6b7280]">{readTime}</span>
             </div>
-            <h2 className="text-lg font-semibold text-[#e5e5e5] mb-6 leading-snug">{title}</h2>
-            <div className="prose prose-sm prose-invert max-w-none text-[#a3a3a3] leading-relaxed whitespace-pre-wrap text-sm">
+            <h2 className="text-2xl font-semibold text-[#f3f4f6] mb-8 leading-snug">{title}</h2>
+            <div className="prose prose-invert max-w-none text-[#9ca3af] leading-relaxed whitespace-pre-wrap">
               {body}
             </div>
           </div>

@@ -1,33 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Github, Linkedin, Mail, Download, Menu, X } from "lucide-react";
-import ArchitectureDiagram from "@/components/ArchitectureDiagram";
-import ExpertiseCard from "@/components/ExpertiseCard";
+import { Github, Linkedin, Mail, Download, Menu, X, ExternalLink } from "lucide-react";
+import Image from "next/image";
 import SystemCard from "@/components/SystemCard";
 import ExperienceCard from "@/components/ExperienceCard";
 import TechnicalNoteCard from "@/components/TechnicalNoteCard";
 
-// ─── DATA ────────────────────────────────────────────────────────────────────
-
-const expertise = [
-  {
-    title: "Backend Engineering",
-    items: ["Node.js", "TypeScript", "Express.js", "REST APIs", "Authentication", "Middleware Design", "Validation", "API Lifecycle"],
-  },
-  {
-    title: "Cloud & Infrastructure",
-    items: ["AWS Lambda", "API Gateway", "CloudFormation", "DynamoDB", "PostgreSQL", "S3", "CloudWatch", "SNS / SQS"],
-  },
-  {
-    title: "Operations & Reliability",
-    items: ["Production Support", "Incident Debugging", "UAT Deployments", "Monitoring", "Log Analysis", "Infra Coordination", "VAPT Coordination"],
-  },
-  {
-    title: "Tooling",
-    items: ["Git", "Postman", "Linux Basics", "VSCode", "Swagger", "REST Clients"],
-  },
-];
+const navItems = ["About", "Work", "Experience", "Notes"];
 
 const systems = [
   {
@@ -45,27 +25,24 @@ const systems = [
     status: "INTERNAL TOOLING",
     statusColor: "yellow" as const,
     overview: "An internal backend-focused platform designed to simplify API management, request testing, environment handling, and operational workflows for development teams.",
-    architecture: ["Client", "↓", "Request Handler", "↓", "Environment Manager", "↓", "Auth Layer", "↓", "Logger"],
     responsibilities: ["Request lifecycle handling", "Environment management", "Authentication workflows", "API request validation", "Logging architecture", "Backend service organization"],
     tech: ["Node.js", "TypeScript", "Express", "REST", "Swagger"],
     challenges: "Structuring reusable backend services while maintaining clean request flows and scalable environment configurations.",
   },
   {
     title: "Workflow-Oriented CRM Platform",
-    status: "MVP / ACTIVE DEVELOPMENT",
+    status: "MVP",
     statusColor: "green" as const,
     overview: "A backend-heavy CRM platform focused on structured workflows, role-based access, operational management, and scalable business process handling.",
-    architecture: ["Client", "↓", "API Gateway", "↓", "Auth + RBAC Layer", "↓", "Workflow Engine", "↓", "PostgreSQL"],
     responsibilities: ["Role-based access control", "Workflow management", "Notification handling", "Entity relationships", "API architecture"],
     tech: ["Node.js", "TypeScript", "PostgreSQL", "Express", "AWS"],
     challenges: "Designing a flexible workflow engine that accommodates diverse business process configurations without coupling core models to specific use cases.",
   },
   {
     title: "Browser Automation & Testing Control System",
-    status: "EXPERIMENTAL TOOLING",
+    status: "EXPERIMENTAL",
     statusColor: "purple" as const,
-    overview: "A lightweight automation system created to support testing workflows when required dependency tooling was unavailable during development. Demonstrates initiative and practical engineering problem-solving.",
-    architecture: ["Control Script", "↓", "Browser Driver Layer", "↓", "Test Scenario Engine", "↓", "Result Logger"],
+    overview: "A lightweight automation system created to support testing workflows when required dependency tooling was unavailable during development.",
     responsibilities: ["Automation script architecture", "Browser state management", "Test scenario orchestration", "Result collection and reporting", "Error recovery handling"],
     tech: ["Python", "Automation", "Scripting", "CLI"],
     challenges: "Building reliable automation without standard tooling — designing around environmental constraints to deliver consistent, repeatable test execution.",
@@ -75,97 +52,28 @@ const systems = [
 const experiences = [
   {
     title: "Application Support & Backend Operations Engineer",
-    company: "Enterprise Wealth Management — Production Support",
+    company: "Enterprise Wealth Management",
     period: "2025 – Present",
     overview: "Working in enterprise production-support environments involving deployments, API troubleshooting, operational debugging, incident resolution, and infrastructure coordination for wealth management systems.",
-    highlights: ["UAT and production deployments", "API issue investigation and resolution", "Monitoring and debugging production incidents", "Infrastructure coordination with engineering teams", "Release support and validation", "VAPT coordination and compliance support"],
-    tags: ["Production Support", "Deployments", "API Debugging", "Monitoring", "VAPT"],
+    highlights: ["UAT and production deployments", "API issue investigation and resolution", "Monitoring and debugging production incidents", "Infrastructure coordination with engineering teams"],
+    tags: ["Production Support", "Deployments", "API Debugging", "Monitoring"],
   },
   {
-    title: "Backend Engineer — Startup Environment",
-    company: "CloudBerry Solutions",
+    title: "Backend Engineer",
+    company: "CloudBerry Solutions (Startup)",
     period: "May 2024 – 2025",
     overview: "Worked as a core backend engineer in a small startup environment, building serverless systems and backend workflows using AWS infrastructure and Python-based services.",
-    highlights: ["AWS Lambda-based microservice development", "API Gateway integrations and endpoint design", "DynamoDB and PostgreSQL schema design", "CloudFormation templates for all infrastructure", "CloudWatch monitoring and alerting setup", "Cognito authentication and AWS Transcribe integration"],
-    tags: ["AWS Lambda", "API Gateway", "DynamoDB", "PostgreSQL", "CloudFormation", "Python"],
+    highlights: ["AWS Lambda-based microservice development", "API Gateway integrations and endpoint design", "DynamoDB and PostgreSQL schema design", "CloudFormation templates for infrastructure", "CloudWatch monitoring and alerting setup"],
+    tags: ["AWS Lambda", "API Gateway", "DynamoDB", "PostgreSQL", "CloudFormation"],
   },
 ];
 
 const notes = [
   {
-    title: "Designing Event-Driven Backend Workflows",
-    tag: "Architecture",
-    readTime: "4 min read",
-    excerpt: "Event-driven architecture decouples services through asynchronous message flows. This note covers SNS/SQS patterns, idempotency, dead letter queues, and when the complexity trade-off is worth it.",
-    body: `Event-driven architecture is a design paradigm where components communicate through events — discrete signals that something has happened — rather than direct function calls. In backend systems, this means replacing synchronous dependencies with asynchronous message flows.
-
-In practice, this looks like: a user submits a form → an event is published to an SNS topic → multiple Lambda functions subscribe and react independently. Order confirmation emails, inventory updates, and audit logging all happen without blocking each other.
-
-The core benefit is decoupling. Each service only cares about its input events and output events — not about what other services exist. This makes systems easier to extend, test, and scale independently.
-
-SNS works well for fan-out patterns where a single event triggers multiple consumers. SQS adds durability, batching, and retry logic — essential when the consuming service might be temporarily unavailable.
-
-Key design considerations:
-
-Schema design matters early. Once events are flowing in production, changing their structure is costly. Define event contracts carefully and version them.
-
-Idempotency is critical. Because retries are a core feature (not an edge case) of message queues, every consumer must handle processing the same event multiple times without side effects.
-
-Dead letter queues are non-negotiable in production. Messages that fail processing repeatedly should land in a DLQ for inspection — not silently disappear.
-
-Observability becomes more complex. Unlike synchronous call chains, event flows don't have a single stack trace. Distributed tracing with correlation IDs and structured logging is essential.
-
-Event-driven architecture adds operational complexity in exchange for resilience and scalability. The trade-off is worth it — but only when the team understands the patterns and has appropriate monitoring in place.`,
-  },
-  {
-    title: "Why Operational Visibility Matters in Backend Systems",
-    tag: "Operations",
-    readTime: "4 min read",
-    excerpt: "A backend system that runs without being observed is a liability. Structured logging, metrics, and distributed tracing are infrastructure — not afterthoughts. This note covers practical patterns from production support.",
-    body: `A backend system that runs without being observed is a liability, not an asset. Operational visibility — the ability to understand what your system is doing in production — is what separates systems that degrade gracefully from ones that fail silently.
-
-Visibility comes in several layers: logs, metrics, and traces.
-
-Logs are the most immediate. Structured logging (JSON output with consistent fields like request_id, user_id, status, latency) makes logs searchable and filterable in CloudWatch. Unstructured logs — raw strings — become noise in production at any meaningful scale.
-
-Metrics provide aggregated signals. Lambda invocation counts, error rates, duration percentiles (p50, p95, p99), and throttle counts tell you whether your system is performing within expected boundaries. Setting CloudWatch alarms on p99 latency and error rates ensures you know before users do.
-
-Traces connect the dots across service boundaries. When a request flows through API Gateway → Lambda → DynamoDB, a correlation ID injected at the entry point and propagated through every log statement lets you reconstruct the full journey of any request.
-
-Practical lessons from production support:
-
-The absence of logs is itself a signal. If a Lambda produces no logs during a period when requests were expected, that points to a cold-start problem, timeout, or silent invocation failure.
-
-Alert on trends, not just thresholds. A gradual increase in p99 latency that stays below the alert threshold is still a warning sign worth investigating.
-
-Dashboards should tell a story. A CloudWatch dashboard showing invocations, errors, and duration in one view gives on-call engineers immediate situational awareness.
-
-Operational visibility is infrastructure. Build it in from the start, and debugging production incidents becomes investigation rather than guesswork.`,
-  },
-  {
-    title: "Structuring APIs for Long-Term Maintainability",
-    tag: "API Design",
-    readTime: "5 min read",
-    excerpt: "An API is a contract. How you version, structure errors, and layer middleware determines how easily the system evolves without breaking clients. Practical patterns for building APIs that age well.",
-    body: `An API is a contract. Every endpoint you publish becomes a commitment — to clients, to integrations, and to future engineers who will maintain the codebase. How you structure that contract determines how easily the system can evolve without breaking things.
-
-Versioning strategy should be decided before launch, not after the first breaking change. URL-based versioning (/api/v1/resource) is predictable and cacheable. Header-based versioning is cleaner but harder to debug. Either works — inconsistency doesn't.
-
-Consistent response shapes reduce friction for consumers. A standard response envelope with data, error, and meta fields means every success and every error looks the same. Consumers can handle errors generically without special-casing each endpoint.
-
-Error handling is where most APIs fall short. HTTP status codes alone aren't enough — a 400 could mean dozens of different things. Structured error responses with machine-readable codes (VALIDATION_FAILED, RESOURCE_NOT_FOUND, RATE_LIMITED) let client applications respond appropriately rather than displaying generic error messages.
-
-Middleware design matters for layered validation. Authentication, authorization, request validation, and rate limiting should each be discrete middleware layers — not entangled inside controller logic. This keeps controllers focused on business logic and makes each layer independently testable.
-
-Documentation should be auto-generated where possible. OpenAPI specs generated from code rather than manually maintained stay accurate as the codebase evolves.
-
-The most important principle: design for the consumer, not the server. An API that's easy to implement internally but awkward to consume is still a bad API. Think about what the client needs, and work backwards.`,
-  },
-  {
-    title: "Handling Async Processing in Serverless Systems",
+    title: "Handling Async Workflows in Serverless Systems",
     tag: "Serverless",
     readTime: "5 min read",
-    excerpt: "Lambda functions are ephemeral. Any work that needs to outlast a single invocation must be handled externally. This note covers SQS offloading, Step Functions, chunking strategies, and retry design.",
+    excerpt: "Lambda functions are ephemeral. Any work that needs to outlast a single invocation must be handled externally. Practical patterns for SQS offloading, Step Functions, and retry design.",
     body: `Serverless functions like AWS Lambda introduce a different mental model for async processing. Unlike a long-running server process that can hold state and manage background jobs, Lambda functions are ephemeral — they start, execute, and terminate. Any work that needs to outlast a single invocation must be handled externally.
 
 Lambda has a hard execution limit (15 minutes). For workloads that might approach this limit — large file processing, complex transformations, multi-step workflows — you need an explicit strategy.
@@ -186,11 +94,78 @@ Dead letter queues capture messages that exhaust retry attempts. Never rely sole
 
 Async serverless architecture trades operational simplicity for scalability. The patterns are well-understood — the challenge is applying them consistently before problems appear in production.`,
   },
+  {
+    title: "Debugging API Failures During Deployments",
+    tag: "Operations",
+    readTime: "4 min read",
+    excerpt: "Production deployments expose edge cases that never appear in staging. Practical debugging patterns from real production support incidents involving API failures, timeouts, and silent errors.",
+    body: `Production deployments expose edge cases that never appear in staging. The most frustrating incidents are the ones where everything looks fine — green health checks, no error logs, successful deployment — but users report failures.
+
+The first instinct is to roll back. Sometimes that's correct. But rolling back without understanding the root cause means the same issue will reappear on the next deployment.
+
+Pattern 1: Check the basics first. DNS propagation delays, load balancer health check misconfigurations, and security group changes are common culprits. These aren't code issues — they're infrastructure issues that manifest as API failures.
+
+Pattern 2: Compare request logs between old and new versions. If the new version is receiving fewer requests, the problem is upstream (routing, DNS, load balancer). If it's receiving the same volume but returning errors, the problem is in the code or dependencies.
+
+Pattern 3: Look for silent failures. Lambda timeouts don't always log errors — they just stop. Database connection pool exhaustion can cause requests to hang without throwing exceptions. These require looking at CloudWatch metrics (invocation duration, throttles) rather than application logs.
+
+Pattern 4: Validate environment variables and secrets. A missing environment variable in the new deployment can cause initialization failures that don't surface until the first real request. Always verify configuration parity between environments.
+
+Pattern 5: Test with real production traffic patterns. Staging environments rarely replicate production load, concurrency, or data volume. A query that works fine with 100 records might timeout with 10,000.
+
+The goal isn't just to fix the immediate issue — it's to add observability so the next deployment surfaces problems earlier. Add structured logging, metric instrumentation, and health check endpoints that validate critical dependencies.`,
+  },
+  {
+    title: "Structuring Express Services for Maintainability",
+    tag: "API Design",
+    readTime: "4 min read",
+    excerpt: "Express gives you flexibility — which means it's easy to build unmaintainable codebases. Practical patterns for layering routes, controllers, services, and models in a way that scales with team size.",
+    body: `Express gives you flexibility — which means it's easy to build unmaintainable codebases. Without structure, every developer implements their own patterns, and the codebase becomes inconsistent.
+
+The goal is to establish conventions that make the codebase predictable. New engineers should be able to find where business logic lives, where database queries happen, and where validation occurs — without asking.
+
+Layer 1: Routes. Routes should be thin. They define HTTP endpoints, extract request parameters, and delegate to controllers. No business logic here.
+
+Layer 2: Controllers. Controllers orchestrate the request flow. They call services, handle errors, and format responses. Controllers should not contain database queries or complex business logic.
+
+Layer 3: Services. Services contain business logic. They're framework-agnostic — they don't know about Express, requests, or responses. This makes them testable in isolation.
+
+Layer 4: Models. Models handle database operations. They encapsulate queries, transactions, and data transformations. Controllers should never write raw SQL or ORM queries.
+
+Middleware should be composable. Authentication, validation, rate limiting, and logging should each be discrete middleware functions that can be applied to routes independently.
+
+Error handling should be centralized. A global error handler catches exceptions, logs them with context (request ID, user ID, endpoint), and returns consistent error responses.
+
+Configuration should be environment-aware. Database credentials, API keys, and feature flags should come from environment variables, not hardcoded in the codebase.
+
+The result is a codebase where every file has a clear purpose, and every layer has a single responsibility. This makes onboarding faster, debugging easier, and refactoring safer.`,
+  },
+  {
+    title: "Event-Driven Architecture in Practice",
+    tag: "Architecture",
+    readTime: "5 min read",
+    excerpt: "Event-driven systems decouple services through asynchronous message flows. Practical lessons from implementing SNS/SQS patterns, handling idempotency, and designing for failure in production.",
+    body: `Event-driven architecture is a design paradigm where components communicate through events — discrete signals that something has happened — rather than direct function calls. In backend systems, this means replacing synchronous dependencies with asynchronous message flows.
+
+In practice, this looks like: a user submits a form → an event is published to an SNS topic → multiple Lambda functions subscribe and react independently. Order confirmation emails, inventory updates, and audit logging all happen without blocking each other.
+
+The core benefit is decoupling. Each service only cares about its input events and output events — not about what other services exist. This makes systems easier to extend, test, and scale independently.
+
+SNS works well for fan-out patterns where a single event triggers multiple consumers. SQS adds durability, batching, and retry logic — essential when the consuming service might be temporarily unavailable.
+
+Key design considerations:
+
+Schema design matters early. Once events are flowing in production, changing their structure is costly. Define event contracts carefully and version them.
+
+Idempotency is critical. Because retries are a core feature (not an edge case) of message queues, every consumer must handle processing the same event multiple times without side effects.
+
+Dead letter queues are non-negotiable in production. Messages that fail processing repeatedly should land in a DLQ for inspection — not silently disappear.
+
+Observability becomes more complex. Unlike synchronous call chains, event flows don't have a single stack trace. Distributed tracing with correlation IDs and structured logging is essential.
+
+Event-driven architecture adds operational complexity in exchange for resilience and scalability. The trade-off is worth it — but only when the team understands the patterns and has appropriate monitoring in place.`,
+  },
 ];
-
-const navItems = ["Profile", "Expertise", "Systems", "Experience", "Notes"];
-
-// ─── COMPONENT ───────────────────────────────────────────────────────────────
 
 export default function Portfolio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -201,174 +176,197 @@ export default function Portfolio() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e5e5e5]">
+    <div className="min-h-screen bg-[#0f1115] text-[#f3f4f6]">
 
-      {/* ── Navigation ──────────────────────────────────────────────────── */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-[#262626] bg-[#0a0a0a]/90 backdrop-blur-sm">
-        <div className="max-w-[1200px] mx-auto px-6 h-14 flex items-center justify-between">
-          <span className="font-mono text-sm text-[#3b82f6]">ZC</span>
+      {/* Navbar */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0f1115]/80 backdrop-blur-xl border-b border-[rgba(255,255,255,0.08)]">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <span className="text-lg font-medium">Zishan.</span>
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <button
                 key={item}
                 onClick={() => scrollTo(item.toLowerCase())}
-                className="text-sm text-[#737373] hover:text-[#e5e5e5] transition-colors duration-200 focus:outline-none"
+                className="text-sm text-[#9ca3af] hover:text-[#f3f4f6] transition-colors duration-200"
               >
                 {item}
               </button>
             ))}
           </nav>
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:block">
             <a
               href="/assets/Zishan_Resume.pdf"
               download
-              className="flex items-center gap-1.5 text-xs font-mono text-[#737373] border border-[#262626] px-3 py-1.5 rounded hover:border-[#3b82f6] hover:text-[#3b82f6] transition-colors duration-200"
+              className="flex items-center gap-2 text-sm border border-[rgba(255,255,255,0.08)] px-4 py-2 rounded-lg hover:border-[#5b8cff] hover:text-[#5b8cff] transition-all duration-200"
             >
-              <Download size={12} /> Resume
+              <Download size={14} /> Resume
             </a>
           </div>
           <button
-            className="md:hidden text-[#737373] hover:text-[#e5e5e5] focus:outline-none"
+            className="md:hidden text-[#9ca3af]"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </header>
 
-      {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#0a0a0a] pt-14 px-6">
+        <div className="fixed inset-0 z-40 bg-[#0f1115] pt-16 px-6">
           <div className="py-8 flex flex-col gap-6">
             {navItems.map((item) => (
               <button
                 key={item}
                 onClick={() => scrollTo(item.toLowerCase())}
-                className="text-left text-lg text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors duration-200 focus:outline-none"
+                className="text-left text-lg text-[#9ca3af] hover:text-[#f3f4f6]"
               >
                 {item}
               </button>
             ))}
-            <a
-              href="/assets/Zishan_Resume.pdf"
-              download
-              className="text-sm text-[#3b82f6] mt-2"
-            >
-              Download Resume
-            </a>
           </div>
         </div>
       )}
 
-      <main className="max-w-[1200px] mx-auto px-6 pt-14">
+      <main className="max-w-6xl mx-auto px-6 pt-16">
 
-        {/* ── Hero ────────────────────────────────────────────────────────── */}
-        <section className="min-h-screen flex items-center py-24">
+        {/* Hero */}
+        <section className="min-h-screen flex items-center py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
             <div>
-              <p className="font-mono text-xs text-[#525252] tracking-widest uppercase mb-6">
-                BACKEND ENGINEER · SERVERLESS SYSTEMS · AWS
-              </p>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-[#e5e5e5] leading-tight mb-6">
-                Building backend systems focused on APIs, cloud infrastructure, and operational reliability.
+              <p className="text-[#9ca3af] mb-4">Hi, I'm Zishan.</p>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-6">
+                Backend engineer focused on building reliable APIs and scalable backend systems.
               </h1>
-              <p className="text-[#a3a3a3] leading-relaxed mb-10 max-w-lg">
-                Backend-focused engineer working with Node.js, TypeScript, and AWS serverless infrastructure. Experience includes API development, Infrastructure-as-Code, production debugging, deployments, and event-driven backend workflows.
+              <p className="text-[#9ca3af] text-lg leading-relaxed mb-10">
+                I primarily work with Node.js, TypeScript, and AWS, with experience across backend development, cloud infrastructure, deployments, production support, and operational debugging.
               </p>
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-4">
                 <button
-                  onClick={() => scrollTo("systems")}
-                  className="bg-[#3b82f6] text-white text-sm px-5 py-2.5 rounded hover:bg-[#2563eb] transition-colors duration-200"
+                  onClick={() => scrollTo("work")}
+                  className="bg-[#5b8cff] text-white px-6 py-3 rounded-lg hover:bg-[#4f7cff] transition-colors duration-200"
                 >
-                  View Systems
+                  View Work
                 </button>
                 <a
                   href="/assets/Zishan_Resume.pdf"
                   download
-                  className="flex items-center gap-2 text-sm text-[#a3a3a3] border border-[#262626] px-5 py-2.5 rounded hover:border-[#3b82f6] hover:text-[#3b82f6] transition-colors duration-200"
+                  className="flex items-center gap-2 border border-[rgba(255,255,255,0.08)] px-6 py-3 rounded-lg hover:border-[#5b8cff] hover:text-[#5b8cff] transition-all duration-200"
                 >
-                  <Download size={14} /> Download Resume
+                  <Download size={16} /> Resume
                 </a>
                 <a
                   href="https://github.com/zishaxn"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-[#737373] hover:text-[#e5e5e5] transition-colors duration-200"
+                  className="text-[#9ca3af] hover:text-[#f3f4f6] transition-colors duration-200"
                 >
-                  <Github size={14} /> GitHub
+                  <Github size={20} />
                 </a>
               </div>
             </div>
-            <div className="lg:pl-8">
-              <ArchitectureDiagram />
+            <div className="flex justify-center lg:justify-end">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#5b8cff]/20 to-[#a855f7]/20 rounded-2xl blur-3xl" />
+                <div className="relative w-80 h-80 rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.08)] bg-[#1a1f29]">
+                  <Image
+                    src="/assets/zishan_profile.jpg"
+                    alt="Zishan Chaudhary"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ── Engineering Profile ─────────────────────────────────────────── */}
-        <section id="profile" className="py-20 border-t border-[#1a1a1a]">
-          <p className="font-mono text-xs text-[#525252] tracking-widest uppercase mb-3">01</p>
-          <h2 className="text-2xl font-semibold text-[#e5e5e5] mb-12">Engineering Profile</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div className="space-y-5">
-              <p className="text-[#a3a3a3] leading-relaxed">
-                Worked across backend development and production support environments involving APIs, deployments, cloud infrastructure, debugging, and operational workflows. Experience includes both startup engineering and enterprise support environments.
+        {/* About */}
+        <section id="about" className="py-24 border-t border-[rgba(255,255,255,0.08)]">
+          <h2 className="text-3xl font-semibold mb-16">About</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div className="lg:col-span-2 space-y-6 text-[#9ca3af] leading-relaxed">
+              <p>
+                I work across backend development and production support environments, focusing on APIs, deployments, cloud infrastructure, debugging, and operational workflows. My experience spans both startup engineering and enterprise support environments.
               </p>
-              <p className="text-[#a3a3a3] leading-relaxed">
+              <p>
                 Primary focus areas include serverless backend systems, Infrastructure-as-Code, API integrations, database design, event-driven workflows, monitoring, and backend reliability. Currently building backend-heavy systems using Node.js, TypeScript, and AWS.
               </p>
-              <div className="flex gap-4 pt-2">
-                <a href="https://www.linkedin.com/in/zishaxnn" target="_blank" rel="noopener noreferrer" className="text-[#525252] hover:text-[#3b82f6] transition-colors duration-200"><Linkedin size={18} /></a>
-                <a href="https://github.com/zishaxn" target="_blank" rel="noopener noreferrer" className="text-[#525252] hover:text-[#e5e5e5] transition-colors duration-200"><Github size={18} /></a>
-                <a href="mailto:zishaxn@gmail.com" className="text-[#525252] hover:text-[#e5e5e5] transition-colors duration-200"><Mail size={18} /></a>
+              <div className="flex gap-4 pt-4">
+                <a href="https://www.linkedin.com/in/zishaxnn" target="_blank" rel="noopener noreferrer" className="text-[#9ca3af] hover:text-[#5b8cff] transition-colors"><Linkedin size={20} /></a>
+                <a href="https://github.com/zishaxn" target="_blank" rel="noopener noreferrer" className="text-[#9ca3af] hover:text-[#f3f4f6] transition-colors"><Github size={20} /></a>
+                <a href="mailto:zishaxn@gmail.com" className="text-[#9ca3af] hover:text-[#f3f4f6] transition-colors"><Mail size={20} /></a>
               </div>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {[
-                { metric: "1+ Year", label: "Backend Engineering Experience" },
-                { metric: "AWS Serverless", label: "Lambda · API Gateway · DynamoDB" },
-                { metric: "Production Operations", label: "Deployments · Debugging · Monitoring" },
-              ].map((card) => (
-                <div key={card.metric} className="border border-[#262626] rounded-lg bg-[#111111] px-5 py-4">
-                  <p className="text-[#e5e5e5] font-semibold text-sm">{card.metric}</p>
-                  <p className="text-[#525252] text-xs font-mono mt-1">{card.label}</p>
+                { label: "Backend Experience", value: "1+ Year" },
+                { label: "AWS & Serverless", value: "Lambda · API Gateway" },
+                { label: "Production Operations", value: "Deployments · Debugging" },
+                { label: "APIs & Infrastructure", value: "Node.js · TypeScript" },
+              ].map((stat) => (
+                <div key={stat.label} className="bg-[#1a1f29] border border-[rgba(255,255,255,0.08)] rounded-xl p-5">
+                  <p className="text-sm text-[#9ca3af] mb-1">{stat.label}</p>
+                  <p className="text-[#f3f4f6] font-medium">{stat.value}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── Core Expertise ──────────────────────────────────────────────── */}
-        <section id="expertise" className="py-20 border-t border-[#1a1a1a]">
-          <p className="font-mono text-xs text-[#525252] tracking-widest uppercase mb-3">02</p>
-          <h2 className="text-2xl font-semibold text-[#e5e5e5] mb-12">Core Expertise</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {expertise.map((card) => (
-              <ExpertiseCard key={card.title} title={card.title} items={card.items} />
-            ))}
-          </div>
-        </section>
-
-        {/* ── Featured Systems ────────────────────────────────────────────── */}
-        <section id="systems" className="py-20 border-t border-[#1a1a1a]">
-          <p className="font-mono text-xs text-[#525252] tracking-widest uppercase mb-3">03</p>
-          <h2 className="text-2xl font-semibold text-[#e5e5e5] mb-3">Featured Systems</h2>
-          <p className="text-[#737373] text-sm mb-12 max-w-xl">
-            A collection of backend systems, infrastructure-focused products, operational tooling, and engineering experiments.
+        {/* Selected Work */}
+        <section id="work" className="py-24 border-t border-[rgba(255,255,255,0.08)]">
+          <h2 className="text-3xl font-semibold mb-4">Selected Work</h2>
+          <p className="text-[#9ca3af] mb-16 max-w-2xl">
+            A collection of backend systems, infrastructure-focused products, and operational tooling.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {systems.map((sys) => (
+          
+          {/* Featured Project */}
+          <div className="mb-12 bg-[#1a1f29] border border-[rgba(255,255,255,0.08)] rounded-2xl p-8 hover:border-[rgba(91,140,255,0.3)] transition-all duration-300">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <span className="inline-block text-xs font-mono text-[#5b8cff] bg-[#5b8cff]/10 border border-[#5b8cff]/20 px-3 py-1 rounded-full mb-3">
+                  FEATURED
+                </span>
+                <h3 className="text-2xl font-semibold mb-3">{systems[0].title}</h3>
+              </div>
+              <span className="text-xs font-mono text-[#5b8cff] bg-[#5b8cff]/10 border border-[#5b8cff]/20 px-3 py-1 rounded-full">
+                {systems[0].status}
+              </span>
+            </div>
+            <p className="text-[#9ca3af] leading-relaxed mb-6">{systems[0].overview}</p>
+            <div className="mb-6">
+              <p className="text-sm text-[#6b7280] mb-3">Key Responsibilities</p>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {systems[0].responsibilities.map((r) => (
+                  <li key={r} className="text-sm text-[#9ca3af] flex items-start gap-2">
+                    <span className="text-[#5b8cff] mt-1">›</span>
+                    {r}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {systems[0].tech.map((t) => (
+                <span key={t} className="text-xs text-[#9ca3af] border border-[rgba(255,255,255,0.08)] px-3 py-1 rounded-full">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Other Projects */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {systems.slice(1).map((sys) => (
               <SystemCard key={sys.title} {...sys} />
             ))}
           </div>
         </section>
 
-        {/* ── Experience ──────────────────────────────────────────────────── */}
-        <section id="experience" className="py-20 border-t border-[#1a1a1a]">
-          <p className="font-mono text-xs text-[#525252] tracking-widest uppercase mb-3">04</p>
-          <h2 className="text-2xl font-semibold text-[#e5e5e5] mb-12">Experience</h2>
-          <div className="max-w-2xl">
+        {/* Experience */}
+        <section id="experience" className="py-24 border-t border-[rgba(255,255,255,0.08)]">
+          <h2 className="text-3xl font-semibold mb-16">Experience</h2>
+          <div className="max-w-3xl space-y-12">
             {experiences.map((exp, i) => (
               <ExperienceCard
                 key={exp.title}
@@ -379,14 +377,13 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* ── Technical Notes ─────────────────────────────────────────────── */}
-        <section id="notes" className="py-20 border-t border-[#1a1a1a]">
-          <p className="font-mono text-xs text-[#525252] tracking-widest uppercase mb-3">05</p>
-          <h2 className="text-2xl font-semibold text-[#e5e5e5] mb-3">Technical Notes</h2>
-          <p className="text-[#737373] text-sm mb-12 max-w-xl">
+        {/* Technical Notes */}
+        <section id="notes" className="py-24 border-t border-[rgba(255,255,255,0.08)]">
+          <h2 className="text-3xl font-semibold mb-4">Technical Notes</h2>
+          <p className="text-[#9ca3af] mb-16 max-w-2xl">
             Notes on backend engineering patterns, operational practices, and system design thinking.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {notes.map((note) => (
               <TechnicalNoteCard key={note.title} {...note} />
             ))}
@@ -395,17 +392,22 @@ export default function Portfolio() {
 
       </main>
 
-      {/* ── Footer ────────────────────────────────────────────────────────── */}
-      <footer className="border-t border-[#1a1a1a] mt-8">
-        <div className="max-w-[1200px] mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-xs font-mono text-[#525252]">
-            © {new Date().getFullYear()} Zishan Chaudhary · Backend Engineer
+      {/* Footer */}
+      <footer className="border-t border-[rgba(255,255,255,0.08)] mt-24">
+        <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="text-sm text-[#6b7280]">
+            © {new Date().getFullYear()} Zishan Chaudhary
           </p>
           <div className="flex items-center gap-6">
-            <a href="https://github.com/zishaxn" target="_blank" rel="noopener noreferrer" className="text-xs text-[#525252] hover:text-[#e5e5e5] transition-colors duration-200 flex items-center gap-1.5"><Github size={14} /> GitHub</a>
-            <a href="https://www.linkedin.com/in/zishaxnn" target="_blank" rel="noopener noreferrer" className="text-xs text-[#525252] hover:text-[#3b82f6] transition-colors duration-200 flex items-center gap-1.5"><Linkedin size={14} /> LinkedIn</a>
-            <a href="mailto:zishaxn@gmail.com" className="text-xs text-[#525252] hover:text-[#e5e5e5] transition-colors duration-200 flex items-center gap-1.5"><Mail size={14} /> Email</a>
-            <a href="/assets/Zishan_Resume.pdf" download className="text-xs text-[#525252] hover:text-[#3b82f6] transition-colors duration-200 flex items-center gap-1.5"><Download size={14} /> Resume</a>
+            <a href="https://github.com/zishaxn" target="_blank" rel="noopener noreferrer" className="text-sm text-[#9ca3af] hover:text-[#f3f4f6] transition-colors flex items-center gap-2">
+              <Github size={16} /> GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/zishaxnn" target="_blank" rel="noopener noreferrer" className="text-sm text-[#9ca3af] hover:text-[#5b8cff] transition-colors flex items-center gap-2">
+              <Linkedin size={16} /> LinkedIn
+            </a>
+            <a href="mailto:zishaxn@gmail.com" className="text-sm text-[#9ca3af] hover:text-[#f3f4f6] transition-colors flex items-center gap-2">
+              <Mail size={16} /> Email
+            </a>
           </div>
         </div>
       </footer>

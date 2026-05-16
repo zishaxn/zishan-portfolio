@@ -25,7 +25,6 @@ export default function SystemCard({
   status,
   statusColor = "blue",
   overview,
-  architecture,
   responsibilities,
   tech,
   challenges,
@@ -33,78 +32,51 @@ export default function SystemCard({
   demo,
 }: SystemCardProps) {
   return (
-    <div className="border border-[#262626] rounded-lg bg-[#111111] p-6 hover:border-[#262626] hover:bg-[#141414] transition-colors duration-200 flex flex-col gap-5">
+    <div className="bg-[#1a1f29] border border-[rgba(255,255,255,0.08)] rounded-xl p-6 hover:border-[rgba(91,140,255,0.3)] transition-all duration-300 flex flex-col gap-5">
       <div className="flex items-start justify-between gap-4">
-        <h3 className="text-base font-semibold text-[#e5e5e5] leading-snug">{title}</h3>
+        <h3 className="text-lg font-semibold text-[#f3f4f6] leading-snug">{title}</h3>
         <span
-          className={`shrink-0 text-[10px] font-mono tracking-widest px-2 py-1 rounded border ${statusColors[statusColor]}`}
+          className={`shrink-0 text-[10px] font-mono px-2 py-1 rounded border ${statusColors[statusColor]}`}
         >
           {status}
         </span>
       </div>
 
-      <p className="text-sm text-[#a3a3a3] leading-relaxed">{overview}</p>
-
-      {architecture && architecture.length > 0 && (
-        <div>
-          <p className="text-xs font-mono text-[#525252] tracking-widest uppercase mb-2">
-            Architecture
-          </p>
-          <div className="font-mono text-xs text-[#737373] border border-[#262626] rounded bg-[#0d0d0d] px-4 py-3 space-y-0.5">
-            {architecture.map((line, i) => (
-              <div key={i} className={line.startsWith("↓") ? "text-[#3b82f6] pl-2" : "text-[#a3a3a3]"}>
-                {line}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      <p className="text-sm text-[#9ca3af] leading-relaxed">{overview}</p>
 
       <div>
-        <p className="text-xs font-mono text-[#525252] tracking-widest uppercase mb-2">
-          Responsibilities
+        <p className="text-xs text-[#6b7280] mb-2">
+          Key Responsibilities
         </p>
-        <ul className="space-y-1">
+        <ul className="space-y-1.5">
           {responsibilities.map((r) => (
-            <li key={r} className="text-sm text-[#a3a3a3] flex items-start gap-2">
-              <span className="text-[#3b82f6] mt-1 shrink-0">›</span>
+            <li key={r} className="text-sm text-[#9ca3af] flex items-start gap-2">
+              <span className="text-[#5b8cff] mt-1 shrink-0">›</span>
               {r}
             </li>
           ))}
         </ul>
       </div>
 
-      <div>
-        <p className="text-xs font-mono text-[#525252] tracking-widest uppercase mb-2">
-          Tech Stack
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {tech.map((t) => (
-            <span
-              key={t}
-              className="text-xs font-mono text-[#737373] border border-[#262626] px-2 py-0.5 rounded"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <p className="text-xs font-mono text-[#525252] tracking-widest uppercase mb-2">
-          Key Challenge
-        </p>
-        <p className="text-sm text-[#737373] italic leading-relaxed">{challenges}</p>
+      <div className="flex flex-wrap gap-2 pt-2">
+        {tech.map((t) => (
+          <span
+            key={t}
+            className="text-xs text-[#9ca3af] border border-[rgba(255,255,255,0.08)] px-3 py-1 rounded-full"
+          >
+            {t}
+          </span>
+        ))}
       </div>
 
       {(github || demo) && (
-        <div className="flex gap-4 pt-1 border-t border-[#262626]">
+        <div className="flex gap-4 pt-2 border-t border-[rgba(255,255,255,0.08)]">
           {github && (
             <a
               href={github}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-[#737373] hover:text-[#e5e5e5] transition-colors duration-200"
+              className="flex items-center gap-1.5 text-xs text-[#9ca3af] hover:text-[#f3f4f6] transition-colors duration-200"
             >
               <Github size={13} /> GitHub
             </a>
@@ -114,7 +86,7 @@ export default function SystemCard({
               href={demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-[#737373] hover:text-[#e5e5e5] transition-colors duration-200"
+              className="flex items-center gap-1.5 text-xs text-[#9ca3af] hover:text-[#f3f4f6] transition-colors duration-200"
             >
               <ExternalLink size={13} /> Live
             </a>
