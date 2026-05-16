@@ -125,11 +125,9 @@ const experiences = [
 const notes = [
   {
     title: "Handling Async Workflows in Serverless Systems",
-    tag: "Serverless",
-    readTime: "5 min read",
-    excerpt:
+    preview:
       "Lambda functions are ephemeral. Any work that needs to outlast a single invocation must be handled externally. Practical patterns for SQS offloading, Step Functions, and retry design.",
-    body: `Serverless functions like AWS Lambda introduce a different mental model for async processing. Unlike a long-running server process that can hold state and manage background jobs, Lambda functions are ephemeral — they start, execute, and terminate. Any work that needs to outlast a single invocation must be handled externally.
+    content: `Serverless functions like AWS Lambda introduce a different mental model for async processing. Unlike a long-running server process that can hold state and manage background jobs, Lambda functions are ephemeral — they start, execute, and terminate. Any work that needs to outlast a single invocation must be handled externally.
 
 Lambda has a hard execution limit (15 minutes). For workloads that might approach this limit — large file processing, complex transformations, multi-step workflows — you need an explicit strategy.
 
@@ -148,14 +146,15 @@ Idempotency keys prevent double-processing when retries happen. Store a processe
 Dead letter queues capture messages that exhaust retry attempts. Never rely solely on logs to detect these — set CloudWatch alarms on DLQ message count.
 
 Async serverless architecture trades operational simplicity for scalability. The patterns are well-understood — the challenge is applying them consistently before problems appear in production.`,
+    images: [],
+    diagrams: [],
+    tags: ["Serverless", "AWS Lambda", "Architecture"],
   },
   {
     title: "Debugging API Failures During Deployments",
-    tag: "Operations",
-    readTime: "4 min read",
-    excerpt:
+    preview:
       "Production deployments expose edge cases that never appear in staging. Practical debugging patterns from real production support incidents involving API failures, timeouts, and silent errors.",
-    body: `Production deployments expose edge cases that never appear in staging. The most frustrating incidents are the ones where everything looks fine — green health checks, no error logs, successful deployment — but users report failures.
+    content: `Production deployments expose edge cases that never appear in staging. The most frustrating incidents are the ones where everything looks fine — green health checks, no error logs, successful deployment — but users report failures.
 
 The first instinct is to roll back. Sometimes that's correct. But rolling back without understanding the root cause means the same issue will reappear on the next deployment.
 
@@ -170,14 +169,15 @@ Pattern 4: Validate environment variables and secrets. A missing environment var
 Pattern 5: Test with real production traffic patterns. Staging environments rarely replicate production load, concurrency, or data volume. A query that works fine with 100 records might timeout with 10,000.
 
 The goal isn't just to fix the immediate issue — it's to add observability so the next deployment surfaces problems earlier. Add structured logging, metric instrumentation, and health check endpoints that validate critical dependencies.`,
+    images: [],
+    diagrams: [],
+    tags: ["Operations", "Debugging", "Deployments"],
   },
   {
     title: "Structuring Express Services for Maintainability",
-    tag: "API Design",
-    readTime: "4 min read",
-    excerpt:
+    preview:
       "Express gives you flexibility — which means it's easy to build unmaintainable codebases. Practical patterns for layering routes, controllers, services, and models in a way that scales with team size.",
-    body: `Express gives you flexibility — which means it's easy to build unmaintainable codebases. Without structure, every developer implements their own patterns, and the codebase becomes inconsistent.
+    content: `Express gives you flexibility — which means it's easy to build unmaintainable codebases. Without structure, every developer implements their own patterns, and the codebase becomes inconsistent.
 
 The goal is to establish conventions that make the codebase predictable. New engineers should be able to find where business logic lives, where database queries happen, and where validation occurs — without asking.
 
@@ -196,14 +196,15 @@ Error handling should be centralized. A global error handler catches exceptions,
 Configuration should be environment-aware. Database credentials, API keys, and feature flags should come from environment variables, not hardcoded in the codebase.
 
 The result is a codebase where every file has a clear purpose, and every layer has a single responsibility. This makes onboarding faster, debugging easier, and refactoring safer.`,
+    images: [],
+    diagrams: [],
+    tags: ["API Design", "Express", "Architecture"],
   },
   {
     title: "Event-Driven Architecture in Practice",
-    tag: "Architecture",
-    readTime: "5 min read",
-    excerpt:
+    preview:
       "Event-driven systems decouple services through asynchronous message flows. Practical lessons from implementing SNS/SQS patterns, handling idempotency, and designing for failure in production.",
-    body: `Event-driven architecture is a design paradigm where components communicate through events — discrete signals that something has happened — rather than direct function calls. In backend systems, this means replacing synchronous dependencies with asynchronous message flows.
+    content: `Event-driven architecture is a design paradigm where components communicate through events — discrete signals that something has happened — rather than direct function calls. In backend systems, this means replacing synchronous dependencies with asynchronous message flows.
 
 In practice, this looks like: a user submits a form → an event is published to an SNS topic → multiple Lambda functions subscribe and react independently. Order confirmation emails, inventory updates, and audit logging all happen without blocking each other.
 
@@ -222,6 +223,9 @@ Dead letter queues are non-negotiable in production. Messages that fail processi
 Observability becomes more complex. Unlike synchronous call chains, event flows don't have a single stack trace. Distributed tracing with correlation IDs and structured logging is essential.
 
 Event-driven architecture adds operational complexity in exchange for resilience and scalability. The trade-off is worth it — but only when the team understands the patterns and has appropriate monitoring in place.`,
+    images: [],
+    diagrams: [],
+    tags: ["Architecture", "Event-Driven", "SNS/SQS"],
   },
 ];
 
