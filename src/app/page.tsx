@@ -43,112 +43,148 @@ const systems = [
     },
     liveUrl: "",
   },
-  {
-    title: "API Management & Testing Platform",
-    status: "INTERNAL TOOLING",
-    statusColor: "yellow" as const,
-    overview:
-      "An internal backend-focused platform designed to simplify API management, request testing, environment handling, and operational workflows for development teams.",
-    responsibilities: [
-      "Request lifecycle handling",
-      "Environment management",
-      "Authentication workflows",
-      "API request validation",
-      "Logging architecture",
-    ],
-    tech: ["Node.js", "TypeScript", "Express", "REST", "Swagger"],
-  },
-  {
-    title: "Workflow-Oriented CRM Platform",
-    status: "MVP",
-    statusColor: "green" as const,
-    overview:
-      "A backend-heavy CRM platform focused on structured workflows, role-based access, operational management, and scalable business process handling.",
-    responsibilities: [
-      "Role-based access control",
-      "Workflow management",
-      "Notification handling",
-      "Entity relationships",
-      "API architecture",
-    ],
-    tech: ["Node.js", "TypeScript", "PostgreSQL", "Express", "AWS"],
-  },
-  {
-    title: "Browser Automation & Testing Control System",
-    status: "EXPERIMENTAL",
-    statusColor: "purple" as const,
-    overview:
-      "A lightweight automation system created to support testing workflows when required dependency tooling was unavailable during development.",
-    responsibilities: [
-      "Automation script architecture",
-      "Browser state management",
-      "Test scenario orchestration",
-      "Result collection and reporting",
-    ],
-    tech: ["Python", "Automation", "Scripting", "CLI"],
-  },
+  // {
+  //   title: "API Management & Testing Platform",
+  //   status: "INTERNAL TOOLING",
+  //   statusColor: "yellow" as const,
+  //   overview:
+  //     "An internal backend-focused platform designed to simplify API management, request testing, environment handling, and operational workflows for development teams.",
+  //   responsibilities: [
+  //     "Request lifecycle handling",
+  //     "Environment management",
+  //     "Authentication workflows",
+  //     "API request validation",
+  //     "Logging architecture",
+  //   ],
+  //   tech: ["Node.js", "TypeScript", "Express", "REST", "Swagger"],
+  // },
+  // {
+  //   title: "Workflow-Oriented CRM Platform",
+  //   status: "MVP",
+  //   statusColor: "green" as const,
+  //   overview:
+  //     "A backend-heavy CRM platform focused on structured workflows, role-based access, operational management, and scalable business process handling.",
+  //   responsibilities: [
+  //     "Role-based access control",
+  //     "Workflow management",
+  //     "Notification handling",
+  //     "Entity relationships",
+  //     "API architecture",
+  //   ],
+  //   tech: ["Node.js", "TypeScript", "PostgreSQL", "Express", "AWS"],
+  // },
+  // {
+  //   title: "Browser Automation & Testing Control System",
+  //   status: "EXPERIMENTAL",
+  //   statusColor: "purple" as const,
+  //   overview:
+  //     "A lightweight automation system created to support testing workflows when required dependency tooling was unavailable during development.",
+  //   responsibilities: [
+  //     "Automation script architecture",
+  //     "Browser state management",
+  //     "Test scenario orchestration",
+  //     "Result collection and reporting",
+  //   ],
+  //   tech: ["Python", "Automation", "Scripting", "CLI"],
+  // },
 ];
 
 const experiences = [
   {
     title: "Software Engineer",
     company: "Clover Infotech (Client: HDFC Bank)",
-    period: "2025 – Present",
+    period: "Jan 2025 – Present",
     overview:
-      "Supporting enterprise wealth management applications across incident management, deployment activities, API troubleshooting, and production/UAT operations.",
+      "Supporting enterprise wealth management applications across production and UAT environments, with a focus on deployments, incident resolution, platform operations, and automation.",
     highlights: [
-      "Incident management and deployment activities for enterprise wealth management applications",
-      "Coordinated infrastructure component upgrades and maintenance",
-      "VAPT & Baselining coordination with infrastructure and security teams",
-      "Deployment validation, issue analysis, and log investigation",
-      "Environment stability and release management support",
+      "Supported enterprise wealth management applications across Production and UAT environments, handling deployments, troubleshooting, incident resolution, and release activities",
+      "Coordinated with business, development, infrastructure, and security teams during production incidents, RCA investigations, and platform upgrades",
+      "Managed and supported platform components including Redis, Elasticsearch, NGINX, SSL certificates, and WAF",
+      "Developed Python and Shell-based deployment automation for artifact deployment, configuration migration, service management, and rollback workflows that reduced deployment time from ~50 minutes to under 10 minutes",
+      "Built a Python/Selenium-based SIT automation solution for 4 applications, reducing sanity validation time from ~3 hours to under 5 minutes through automated validation, health checks, and reporting",
     ],
-    tags: ["Production Support", "Deployments", "API Troubleshooting", "VAPT", "Release Management"],
+    tags: ["Production Support", "Deployments", "Python", "Selenium", "Redis", "Elasticsearch"],
   },
   {
     title: "Backend Engineer",
     company: "CloudBerry Solutions (Startup)",
-    period: "May 2024 – 2025",
+    period: "May 2024 – Jan 2025",
     overview:
-      "Worked as a core backend engineer in a small startup environment, building serverless systems and backend workflows using AWS infrastructure and Python-based services.",
+      "Built serverless backend applications and REST APIs on AWS for customer engagement, loyalty management, and business workflow platforms.",
     highlights: [
-      "Developed REST APIs for loyalty systems and customer feedback workflows for Restuarant & Cafe Owners",
-      "Implemented QR-based review flows and business operations platforms",
-      "Built separate authentication systems for customers and business owners",
-      "Designed PostgreSQL schemas and database architecture",
-      "Deployed serverless infrastructure using CloudFormation",
+      "Built serverless backend applications using AWS Lambda, API Gateway, DynamoDB, PostgreSQL, Cognito, S3, and CloudFormation",
+      "Developed REST APIs for customer engagement, loyalty management, merchant onboarding, feedback processing, and business workflows",
+      "Implemented authentication, authorization, and event-driven workflows using Cognito, SNS, SQS, Step Functions, and EventBridge",
+      "Designed PostgreSQL schemas, DynamoDB data models, and CloudFormation infrastructure for scalable serverless applications",
     ],
-    tags: ["AWS Lambda", "API Gateway", "DynamoDB", "PostgreSQL", "Cognito", "CloudFormation"],
+    tags: ["AWS Lambda", "API Gateway", "DynamoDB", "PostgreSQL", "EventBridge", "CloudFormation"],
   },
 ];
 
 const notes = [
   {
-    title: "Handling Async Workflows in Serverless Systems",
+    title: "From WhatsApp to EventBridge: Building a Reliable Message Pipeline",
     preview:
-      "Lambda functions are ephemeral. Any work that needs to outlast a single invocation must be handled externally. Practical patterns for SQS offloading, Step Functions, and retry design.",
-    content: `Serverless functions like AWS Lambda introduce a different mental model for async processing. Unlike a long-running server process that can hold state and manage background jobs, Lambda functions are ephemeral — they start, execute, and terminate. Any work that needs to outlast a single invocation must be handled externally.
+      "We wanted users to interact with our CRM directly through WhatsApp using natural language. A user sends a WhatsApp message, our platform processes it, and the response comes back through the same conversation.",
+    content: `We wanted users to interact with our CRM platform directly through WhatsApp using natural language. The idea was simple: a user sends a WhatsApp message, our AI workflow processes it, and the response is delivered back through the same WhatsApp conversation.
 
-Lambda has a hard execution limit (15 minutes). For workloads that might approach this limit — large file processing, complex transformations, multi-step workflows — you need an explicit strategy.
+During the early testing phase, we did not want to use the official Meta WhatsApp API. While exploring alternatives, I did a bit of reverse engineering to understand how OpenClaw enables WhatsApp communication through QR code pairing. That led us to Baileys.
 
-Pattern 1: Offload to SQS. Rather than processing synchronously, write the job to an SQS queue and return immediately. A separate Lambda triggered by the queue handles the actual work. The queue provides buffering, retry logic, and back-pressure for free.
+Baileys is an open-source Node.js library that acts as a WhatsApp Web client. It allows communication with WhatsApp's infrastructure without using the official Business API and gave us the flexibility to build our own custom logic around it.
 
-Pattern 2: Step Functions for multi-step workflows. AWS Step Functions coordinate sequences of Lambda invocations, each with its own timeout and error handling. The state machine persists between steps — no single Lambda needs to hold the full workflow in memory.
+To keep concerns separated, we built a completely independent service called **whatsapp-service** and deployed it on AWS ECS Fargate. This allowed us to focus on business logic rather than infrastructure management.
 
-Pattern 3: Chunking large datasets. If processing 10,000 records in one Lambda is risky, process 500 at a time. Store progress in DynamoDB. Fan out to multiple Lambda invocations using SNS. Convergence logic reassembles results when all chunks complete.
+Our architecture treats Baileys as a linked WhatsApp client. When a user sends a message, WhatsApp synchronizes it to all linked devices, including our Baileys instance running on ECS. The whatsapp-service receives the event, publishes it to EventBridge, which then triggers our CRM workflow and AI processing pipeline. Once the AI generates a response, it is sent back to whatsapp-service, which delivers it through Baileys, and WhatsApp synchronizes it back to the user.
 
-Retry design considerations:
+One important detail is that Baileys does **not** communicate directly with the user's phone. Both the phone and our Baileys instance are independent clients connected to the same WhatsApp infrastructure.
 
-Not all failures are equal. Network timeouts should be retried; validation errors should not. Distinguish retriable errors from terminal errors at the handler level.
+### Message Processing Pipeline
 
-Idempotency keys prevent double-processing when retries happen. Store a processed flag keyed on a unique request identifier, and skip reprocessing if already handled.
+To ensure reliability, we built multiple processing layers between receiving a WhatsApp event and publishing it to EventBridge.
 
-Dead letter queues capture messages that exhaust retry attempts. Never rely solely on logs to detect these — set CloudWatch alarms on DLQ message count.
+1. **Message Reception**
+   WhatsApp delivers messages over a persistent WebSocket connection. Baileys decrypts the payload and emits a \`messages.upsert\` event.
 
-Async serverless architecture trades operational simplicity for scalability. The patterns are well-understood — the challenge is applying them consistently before problems appear in production.`,
-    images: [],
+2. **Validation & Filtering**
+   History sync events, append events, WhatsApp system traffic, and other non-actionable updates are discarded immediately.
+
+3. **Eligibility Checks**
+   Platform-level rules determine whether a message should be processed before it enters the workflow.
+
+4. **Echo Protection**
+   Messages previously sent by our platform are cached. If WhatsApp echoes them back, they are ignored to prevent reply loops.
+
+5. **Debouncing**
+   Multiple messages sent within a short time window can be grouped together, reducing unnecessary AI invocations.
+
+6. **Parsing & Content Validation**
+   We normalize message metadata and ensure the content is supported by the workflow before processing.
+
+7. **Duplicate Detection**
+   Recently processed message IDs are cached to prevent duplicate processing caused by reconnects or retries.
+
+8. **Reliable Queueing**
+   Messages are persisted to an internal queue before delivery, preventing loss during temporary outages.
+
+9. **Event Delivery**
+   Valid messages are published to EventBridge, which forwards them to downstream CRM and AI systems.
+
+10. **Retries & Recovery**
+    Failed deliveries are tracked and retried using background workers with backoff logic until successful.
+
+This layered approach ensures that only legitimate user messages reach the CRM, prevents duplicate processing, and provides reliable delivery even during temporary infrastructure failures.`,
+    images: ["/assets/whatsapp_platform.jpg"],
     diagrams: [],
-    tags: ["Serverless", "AWS Lambda", "Architecture"],
+    tags: [
+      "AWS",
+      "EventBridge",
+      "WhatsApp",
+      "Baileys",
+      "Node.js",
+      "System Design",
+      "ECS",
+      "Event-Driven",
+    ],
   },
   {
     title: "Debugging API Failures During Deployments",
@@ -512,7 +548,7 @@ export default function Portfolio() {
               thinking.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-col gap-6 max-w-4xl">
             {notes.map((note) => (
               <TechnicalNoteCard key={note.title} {...note} />
             ))}
